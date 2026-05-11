@@ -80,7 +80,12 @@ const defaultPedidos = [
     { id: 1022, cliente: "Alicia Silva", tipo: "mesa", mesa: "3", items: [{ id: 5, name: "Salmón Grillado", price: 245, quantity: 1 }, { id: 9, name: "Limonada Natural", price: 45, quantity: 2 }], total: 335, estado: "completado", fecha: getDateOffset(-3) },
     { id: 1023, cliente: "Eduardo Luna", tipo: "domicilio", mesa: null, items: [{ id: 3, name: "Croquetas de Jamón", price: 95, quantity: 1 }, { id: 6, name: "Pasta Carbonara", price: 175, quantity: 1 }, { id: 12, name: "Tiramisú Clásico", price: 85, quantity: 1 }], total: 355, estado: "pendiente", fecha: getDateOffset(-3) },
     { id: 1024, cliente: "Rafael Ortiz", tipo: "mesa", mesa: "1", items: [{ id: 16, name: "Paella Valenciana", price: 225, quantity: 2 }, { id: 10, name: "Café Latte", price: 55, quantity: 2 }], total: 560, estado: "completado", fecha: getDateOffset(-4) },
-    { id: 1025, cliente: "Marco Aguilar", tipo: "domicilio", mesa: null, items: [{ id: 4, name: "Ribeye Steak", price: 285, quantity: 1 }, { id: 14, name: "Cheesecake de Fresa", price: 79, quantity: 1 }], total: 364, estado: "completado", fecha: getDateOffset(-4) }
+    { id: 1025, cliente: "Marco Aguilar", tipo: "domicilio", mesa: null, items: [{ id: 4, name: "Ribeye Steak", price: 285, quantity: 1 }, { id: 14, name: "Cheesecake de Fresa", price: 79, quantity: 1 }], total: 364, estado: "completado", fecha: getDateOffset(-4) },
+    { id: 1026, cliente: "Carmen López", tipo: "mesa", mesa: "3", items: [{ id: 7, name: "Pollo al Horno", price: 195, quantity: 2 }, { id: 11, name: "Smoothie de Fruits", price: 65, quantity: 2 }], total: 520, estado: "pendiente", fecha: getDateOffset(0) },
+    { id: 1027, cliente: "Diego Morales", tipo: "domicilio", mesa: null, items: [{ id: 2, name: "Bowl de Hummus", price: 79, quantity: 1 }, { id: 5, name: "Salmón Grillado", price: 245, quantity: 1 }, { id: 15, name: "Churros con Chocolate", price: 69, quantity: 1 }], total: 393, estado: "pendiente", fecha: getDateOffset(0) },
+    { id: 1028, cliente: "Patricia Flores", tipo: "mesa", mesa: "4", items: [{ id: 4, name: "Ribeye Steak", price: 285, quantity: 1 }, { id: 9, name: "Limonada Natural", price: 45, quantity: 1 }, { id: 13, name: "Brownie de Chocolate", price: 75, quantity: 1 }], total: 405, estado: "pendiente", fecha: getDateOffset(0) },
+    { id: 1029, cliente: "Oscar Guerrero", tipo: "domicilio", mesa: null, items: [{ id: 6, name: "Pasta Carbonara", price: 175, quantity: 2 }, { id: 10, name: "Café Latte", price: 55, quantity: 2 }], total: 480, estado: "pendiente", fecha: getDateOffset(-1) },
+    { id: 1030, cliente: "Verónica Campos", tipo: "mesa", mesa: "2", items: [{ id: 8, name: "Burger Gourmet", price: 165, quantity: 2 }, { id: 12, name: "Tiramisú Clásico", price: 85, quantity: 1 }], total: 415, estado: "pendiente", fecha: getDateOffset(-1) }
 ];
 
 // DATOS DE RESERVAS
@@ -99,7 +104,16 @@ const defaultReservas = [
     { id: 2012, cliente: "Marco Aguilar", telefono: "554-555-5555", fecha: getDateOffset(-2), hora: "13:00", personas: 2, mesa: 1, notas: "", estado: "cancelada" },
     { id: 2013, cliente: "Carmen López", telefono: "552-666-6666", fecha: getDateOffset(-3), hora: "19:00", personas: 6, mesa: 5, notas: "Cena de navidad", estado: "completada" },
     { id: 2014, cliente: "Rafael Ortiz", telefono: "553-666-6666", fecha: getDateOffset(-4), hora: "12:00", personas: 4, mesa: 2, notas: "", estado: "completada" },
-    { id: 2015, cliente: "Gloria Vega", telefono: "553-777-7777", fecha: getDateOffset(-5), hora: "20:30", personas: 8, mesa: 5, notas: "Celebración de graduación", estado: "completada" }
+    { id: 2015, cliente: "Gloria Vega", telefono: "553-777-7777", fecha: getDateOffset(-5), hora: "20:30", personas: 8, mesa: 5, notas: "Celebración de graduación", estado: "completada" },
+    { id: 2016, cliente: "Hugo Ramos", telefono: "553-888-8888", fecha: getDateOffset(5), hora: "19:00", personas: 3, mesa: 2, notas: "Almuerzo familiar", estado: "confirmada" },
+    { id: 2017, cliente: "Verónica Campos", telefono: "554-222-2222", fecha: getDateOffset(6), hora: "13:00", personas: 5, mesa: 4, notas: "Reunión de trabajo", estado: "pendiente" },
+    { id: 2018, cliente: "Eduardo Luna", telefono: "554-333-3333", fecha: getDateOffset(7), hora: "20:00", personas: 6, mesa: 5, notas: "Cena de cumpleaños", estado: "pendiente" },
+    { id: 2019, cliente: "Alicia Silva", telefono: "554-444-4444", fecha: getDateOffset(0), hora: "12:30", personas: 2, mesa: 1, notas: "Cita", estado: "confirmada" },
+    { id: 2020, cliente: "Marco Aguilar", telefono: "554-555-5555", fecha: getDateOffset(2), hora: "19:30", personas: 4, mesa: 3, notas: "", estado: "confirmada" },
+    { id: 2021, cliente: "Gustavo Medina", telefono: "554-777-7777", fecha: getDateOffset(-1), hora: "20:00", personas: 3, mesa: 2, notas: "Despedida", estado: "completada" },
+    { id: 2022, cliente: "Daniela Rojas", telefono: "554-666-6666", fecha: getDateOffset(-2), hora: "13:30", personas: 2, mesa: 1, notas: "", estado: "completada" },
+    { id: 2023, cliente: "Oscar Guerrero", telefono: "553-444-4444", fecha: getDateOffset(3), hora: "14:00", personas: 6, mesa: 4, notas: "Evento corporativo", estado: "pendiente" },
+    { id: 2024, cliente: "Carmen López", telefono: "552-666-6666", fecha: getDateOffset(-6), hora: "19:00", personas: 5, mesa: 3, notas: "", estado: "cancelada" }
 ];
 
 // DATOS DE FACTURAS
