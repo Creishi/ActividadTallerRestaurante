@@ -1,3 +1,9 @@
+// CREDENCIALES DE ADMINISTRADOR
+const adminCredentials = {
+    usuario: 'admin',
+    contrasena: 'admin123'
+};
+
 // DATOS INICIALES
 const defaultMenuData = [
     { id: 1, name: "Bruschetta Italiana", description: "Pan artesanal con tomates frescos y albahaca", price: 89.00, category: "entradas", image: "https://images.unsplash.com/photo-1572695157366-5e585ab2b69f?w=400&h=300&fit=crop", available: true },
@@ -113,7 +119,15 @@ const defaultReservas = [
     { id: 2021, cliente: "Gustavo Medina", telefono: "554-777-7777", fecha: getDateOffset(-1), hora: "20:00", personas: 3, mesa: 2, notas: "Despedida", estado: "completada" },
     { id: 2022, cliente: "Daniela Rojas", telefono: "554-666-6666", fecha: getDateOffset(-2), hora: "13:30", personas: 2, mesa: 1, notas: "", estado: "completada" },
     { id: 2023, cliente: "Oscar Guerrero", telefono: "553-444-4444", fecha: getDateOffset(3), hora: "14:00", personas: 6, mesa: 4, notas: "Evento corporativo", estado: "pendiente" },
-    { id: 2024, cliente: "Carmen López", telefono: "552-666-6666", fecha: getDateOffset(-6), hora: "19:00", personas: 5, mesa: 3, notas: "", estado: "cancelada" }
+    { id: 2024, cliente: "Carmen López", telefono: "552-666-6666", fecha: getDateOffset(-6), hora: "19:00", personas: 5, mesa: 3, notas: "", estado: "cancelada" },
+    { id: 2025, cliente: "Miguel Torres", telefono: "552-333-3333", fecha: getDateOffset(0), hora: "14:30", personas: 3, mesa: 2, notas: "Almuerzo de negocios", estado: "confirmada" },
+    { id: 2026, cliente: "Gustavo Medina", telefono: "554-777-7777", fecha: getDateOffset(1), hora: "20:00", personas: 4, mesa: 3, notas: "Cena en pareja", estado: "confirmada" },
+    { id: 2027, cliente: "Arturo Herrera", telefono: "553-999-9999", fecha: getDateOffset(0), hora: "19:00", personas: 2, mesa: 1, notas: "", estado: "pendiente" },
+    { id: 2028, cliente: "Sandra Navarro", telefono: "553-555-5555", fecha: getDateOffset(2), hora: "13:00", personas: 5, mesa: 4, notas: "Familia completa", estado: "pendiente" },
+    { id: 2029, cliente: "Patricia Flores", telefono: "552-888-8888", fecha: getDateOffset(1), hora: "14:30", personas: 3, mesa: 2, notas: "", estado: "confirmada" },
+    { id: 2030, cliente: "Rafael Ortiz", telefono: "553-666-6666", fecha: getDateOffset(-1), hora: "19:30", personas: 6, mesa: 5, notas: "Cena especial", estado: "completada" },
+    { id: 2031, cliente: "Gloria Vega", telefono: "553-777-7777", fecha: getDateOffset(4), hora: "12:00", personas: 4, mesa: 3, notas: "Reunión importante", estado: "pendiente" },
+    { id: 2032, cliente: "Diego Morales", telefono: "553-222-2222", fecha: getDateOffset(0), hora: "21:00", personas: 2, mesa: 1, notas: "Noche de copas", estado: "confirmada" }
 ];
 
 // DATOS DE FACTURAS
@@ -165,15 +179,71 @@ const categoryLabels = {
 
 // INICIALIZACIÓN
 document.addEventListener('DOMContentLoaded', () => {
-    initApp();
+    checkLogin();
 });
+
+// FUNCIONES DE LOGIN
+function checkLogin() {
+    const userLogged = localStorage.getItem('userLogged');
+    if (userLogged === 'true') {
+        showApp();
+        initApp();
+    } else {
+        showLogin();
+        setupLoginForm();
+    }
+}
+
+function showLogin() {
+    document.getElementById('loginContainer').classList.remove('hidden');
+    document.getElementById('appContainer').classList.add('hidden');
+}
+
+function showApp() {
+    document.getElementById('loginContainer').classList.add('hidden');
+    document.getElementById('appContainer').classList.remove('hidden');
+}
+
+function setupLoginForm() {
+    document.getElementById('loginForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+        handleLogin();
+    });
+}
+
+function handleLogin() {
+    const usuario = document.getElementById('loginUser').value;
+    const contrasena = document.getElementById('loginPassword').value;
+    const errorDiv = document.getElementById('loginError');
+
+    if (usuario === adminCredentials.usuario && contrasena === adminCredentials.contrasena) {
+        localStorage.setItem('userLogged', 'true');
+        localStorage.setItem('adminUser', usuario);
+        errorDiv.style.display = 'none';
+        showApp();
+        initApp();
+    } else {
+        errorDiv.textContent = '❌ Usuario o contraseña incorrectos';
+        errorDiv.style.display = 'block';
+        document.getElementById('loginPassword').value = '';
+    }
+}
+
+function logout() {
+    localStorage.removeItem('userLogged');
+    localStorage.removeItem('adminUser');
+    document.getElementById('loginForm').reset();
+    showLogin();
+    setupLoginForm();
+}
 
 function initApp() {
     setupNavigation();
     setupEventListeners();
-    renderPedidos();
+    renderMenu();
     renderReservas();
     renderMenuManagement();
+    renderPedidosPendientes();
     renderUsuarios();
     renderClientes();
     renderFacturas();
@@ -225,6 +295,9 @@ function switchModule(moduleName) {
 }
 
 function setupEventListeners() {
+    // Logout
+    document.getElementById('logoutBtn').addEventListener('click', logout);
+
     // Pedidos
     document.getElementById('categoryFilter').addEventListener('change', renderMenu);
     document.getElementById('clearCart').addEventListener('click', clearCart);
@@ -468,6 +541,7 @@ function confirmPedido() {
 
     updateStats();
     showToast(`Pedido #${pedido.id} confirmado`);
+    renderPedidosPendientes();
 }
 
 function updateStats() {
@@ -483,11 +557,68 @@ function updateStats() {
     document.getElementById('ventasDia').textContent = `$${ventas.toFixed(2)}`;
 }
 
+// ============= PEDIDOS PENDIENTES =============
+function renderPedidosPendientes() {
+    const tbody = document.getElementById('pedidosPendientesBody');
+    if (!tbody) return;
+
+    const pendientes = pedidos.filter(p => p.estado === 'pendiente');
+    if (pendientes.length === 0) {
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="8" style="text-align: center; padding: 20px;">
+                    <i class="fas fa-inbox"></i> Sin pedidos pendientes
+                </td>
+            </tr>
+        `;
+        return;
+    }
+
+    tbody.innerHTML = pendientes.map(p => `
+        <tr>
+            <td>${p.id}</td>
+            <td>${p.cliente}</td>
+            <td>${p.tipo}</td>
+            <td>${p.mesa || '-'}</td>
+            <td>${p.items.map(it => `${it.name} x${it.quantity}`).join('<br>')}</td>
+            <td>$${(p.total || 0).toFixed(2)}</td>
+            <td><span class="status-badge status-${p.estado}">${p.estado}</span></td>
+            <td>
+                <button class="btn-edit" onclick="updatePedidoEstado(${p.id}, 'completado')" title="Marcar completado">
+                    <i class="fas fa-check"></i>
+                </button>
+                <button class="btn-delete" onclick="deletePedido(${p.id})" title="Eliminar">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </td>
+        </tr>
+    `).join('');
+}
+
+function updatePedidoEstado(id, nuevoEstado) {
+    const idx = pedidos.findIndex(p => p.id == id);
+    if (idx === -1) return;
+    pedidos[idx].estado = nuevoEstado;
+    localStorage.setItem('pedidos', JSON.stringify(pedidos));
+    updateStats();
+    renderPedidosPendientes();
+    showToast(`Pedido #${id} ${nuevoEstado}`);
+}
+
+function deletePedido(id) {
+    if (!confirm('¿Eliminar pedido #'+id+'?')) return;
+    pedidos = pedidos.filter(p => p.id != id);
+    localStorage.setItem('pedidos', JSON.stringify(pedidos));
+    updateStats();
+    renderPedidosPendientes();
+    showToast(`Pedido #${id} eliminado`);
+}
+
 // ============= MODULO RESERVAS =============
 
 function renderReservas() {
     const tbody = document.getElementById('reservasTableBody');
-    const fecha = document.getElementById('reservaFecha').value || new Date().toISOString().split('T')[0];
+    const fecha = document.getElementById('reservaFecha').value;
 
     let filtered = reservas;
     if (fecha) {
@@ -516,7 +647,7 @@ function renderReservas() {
         </tr>
     `).join('');
 
-    renderMesas(fecha);
+    renderMesas(fecha || new Date().toISOString().split('T')[0]);
 }
 
 function renderMesas(fecha) {

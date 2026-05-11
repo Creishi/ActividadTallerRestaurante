@@ -12,6 +12,38 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
+    <!-- PANTALLA DE LOGIN -->
+    <div class="login-container" id="loginContainer">
+        <div class="login-box">
+            <div class="login-header">
+                <i class="fas fa-utensils"></i>
+                <h1>Restaurante</h1>
+                <p>Sistema de Gestión</p>
+            </div>
+            <form class="login-form" id="loginForm">
+                <div class="form-group">
+                    <label><i class="fas fa-user"></i> Usuario</label>
+                    <input type="text" id="loginUser" placeholder="admin" required>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-lock"></i> Contraseña</label>
+                    <input type="password" id="loginPassword" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="btn-login">
+                    <i class="fas fa-sign-in-alt"></i> Ingresar
+                </button>
+                <div class="login-error" id="loginError" style="display: none;"></div>
+            </form>
+            <div class="login-footer">
+                <p><strong>Credenciales de prueba:</strong></p>
+                <p>Usuario: <code>admin</code></p>
+                <p>Contraseña: <code>admin123</code></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- APLICACIÓN PRINCIPAL -->
+    <div class="app-container hidden" id="appContainer">
     <aside class="sidebar" id="sidebar">
         <div class="sidebar-header">
             <div class="logo">
@@ -62,6 +94,9 @@
                     <span class="user-role">Gerente</span>
                 </div>
             </div>
+            <button class="btn-logout" id="logoutBtn" title="Cerrar sesión">
+                <i class="fas fa-sign-out-alt"></i> Salir
+            </button>
         </div>
     </aside>
 
@@ -171,6 +206,35 @@
                                 </button>
                             </div>
                         </div>
+                    </div>
+                </div>
+                <!-- SECCIÓN DE PEDIDOS PENDIENTES -->
+                <div class="pedidos-pendientes-section">
+                    <div class="section-header">
+                        <h3><i class="fas fa-hourglass-half"></i> Pedidos Pendientes</h3>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th># Pedido</th>
+                                    <th>Cliente</th>
+                                    <th>Tipo</th>
+                                    <th>Mesa</th>
+                                    <th>Items</th>
+                                    <th>Total</th>
+                                    <th>Estado</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="pedidosPendientesBody">
+                                <tr>
+                                    <td colspan="8" style="text-align: center; padding: 20px;">
+                                        <i class="fas fa-inbox"></i> Sin pedidos pendientes
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </section>
@@ -698,10 +762,10 @@
     </div>
 
     <!-- Footer Fijo -->
-    <footer class="footer">
+    <footer class="footer" id="footer">
         <div class="footer-content">
             <div class="footer-logo">
-                <img src="https://images.unsplash.com/photo-1578521871849-e14208b9acd2?w=100&h=100&fit=crop" alt="Chef Caricatura" class="footer-logo-img" />
+                <img src="https://static.wikia.nocookie.net/disney/images/3/37/02d91f8899c03a2bf656e0b197753b7f.jpg/revision/latest/scale-to-width-down/1200?cb=20161005013637&path-prefix=es" alt="Chef Caricatura" class="footer-logo-img" />
             </div>
             <div class="footer-text">
                 <span class="footer-name">Realizado por Cristhian Tunubalà</span>
@@ -709,6 +773,7 @@
             </div>
         </div>
     </footer>
+    </div>
 
     <!-- Toast Notification -->
     <div class="toast" id="toast">
